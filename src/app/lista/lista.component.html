@@ -1,1 +1,56 @@
-<p>lista works!</p>
+<div class="contactos-container">
+    <div class="contactos-header">
+        {{ listaPersonas.length }} contactos registrados
+    </div>
+
+    <table class="personas-table">
+        <tbody>
+            @for (persona of listaPersonas; track persona) {
+            <tr class="persona-row">
+                <td class="persona-cell">
+                    <div class="persona-info">
+                        <div class="persona-nombre"><strong>Nombre:</strong> {{ persona.nombre }}</div>
+                        <div class="persona-apellido"><strong>Apellido:</strong> {{ persona.apellido }}</div>
+                    </div>
+    
+                    <div class="telefonos-section">
+                        <div class="telefonos-title">Teléfonos</div>
+                        <table class="telefonos-table">
+                            <tbody>
+                                @for (telefono of persona.telefonos; track telefono) {
+                                <tr class="telefono-row">
+                                    <td class="telefono-cell">
+                                        <div class="telefono-info">{{ telefono.numero }} - {{ telefono.marca }}</div>
+    
+                                        <div class="contactos-section">
+                                            <div class="contactos-title">Contactos</div>
+    
+                                            @if (telefono.contactos && telefono.contactos.length > 0) {
+                                            <table class="contactos-table">
+                                                <tbody>
+                                                    @for (contacto of telefono.contactos; track $index) {
+                                                    <tr class="contacto-row">
+                                                        <td class="contacto-cell">
+                                                            <!-- Múltiples opciones para mostrar el nombre -->
+                                                            Contacto: {{ contacto?.nombreContacto || 'Sin nombre' }}
+                                                        </td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            } @else {
+                                            <div class="sin-contactos">No hay contactos registrados</div>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    </div>
