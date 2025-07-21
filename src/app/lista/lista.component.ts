@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Persona } from '../models/Persona';
 import { PersonaServiceService } from '../service/persona/personaService.service';
+import { TelefonoServiceService } from '../service/telefono/telefonoService.service';
+import { ContactoServiceService } from '../service/contacto/contactoService.service';
 
 @Component({
   selector: 'app-lista',
@@ -10,14 +12,37 @@ import { PersonaServiceService } from '../service/persona/personaService.service
 })
 export class ListaComponent {
   public listaPersonas: Persona[] = [];
-  constructor(private personaService: PersonaServiceService) {
+  public listaTelefonos: any[] = [];
+  public listContactos: any[] = [];
+  public mostrarTablaPersonas: boolean = false;
+
+  constructor(private personaService: PersonaServiceService, private telefonoService: TelefonoServiceService, private contactoService: ContactoServiceService) {
+    this.listaPersonas = [];
+    this.listaTelefonos = [];
+    this.listContactos = [];
 
   }
   ngOnInit(): void {
-    this.personaService.getAll().subscribe(r => {
-      this.listaPersonas = r;
-      console.log(this.listaPersonas);
-    });
 
   }
+  //funcion para mostrar la lista de personas
+  mostrarPersonas(): void {
+    this.personaService.getAll().subscribe(r => {
+      this.listaPersonas = r;
+      console.log("lista de personas: ", this.listaPersonas);
+    });
+  }
+
+  telefonoPorPersona(id: number): void {
+    this.telefonoService.getById(id).subscribe(r => {
+      this.listaTelefonos = r;
+      console.log("Lista de telefonos por persona: ", this.listaTelefonos);
+    },
+      error => {
+        console.error("Error al obtener los telefonos por persona: ", error);
+      }
+    );
+  }
+
+
 }
