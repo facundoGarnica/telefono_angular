@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Persona } from '../models/Persona';
+import { ContactoServiceService } from '../service/contacto/contactoService.service';
 import { PersonaServiceService } from '../service/persona/personaService.service';
 import { TelefonoServiceService } from '../service/telefono/telefonoService.service';
-import { ContactoServiceService } from '../service/contacto/contactoService.service';
 
 @Component({
   selector: 'app-lista',
@@ -34,15 +34,11 @@ export class ListaComponent {
   }
 
   telefonoPorPersona(id: number): void {
-    this.telefonoService.getById(id).subscribe(r => {
+    this.telefonoService.findByPersonaId(id).subscribe(r => {
       this.listaTelefonos = r;
-      console.log("Lista de telefonos por persona: ", this.listaTelefonos);
-    },
-      error => {
-        console.error("Error al obtener los telefonos por persona: ", error);
-      }
-    );
+      console.log("lista de telefonos: ", this.listaTelefonos);
+    });
   }
-
-
 }
+
+

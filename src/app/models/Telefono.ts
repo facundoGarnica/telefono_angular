@@ -1,7 +1,8 @@
 import { Contacto } from "./Contacto";
-
-export class Telefono{
-    constructor(public id: number, public numero: string, public marca: string, public persona_id: number, public contactos: Contacto[] = []){
-        
-    }
+export interface Telefono {
+    id?: number;
+    numero: string;
+    marca: string;
+    persona_id?: number;
+    contactos: Contacto[];
 }
