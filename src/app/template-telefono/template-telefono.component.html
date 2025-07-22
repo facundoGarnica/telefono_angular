@@ -19,7 +19,7 @@
 
             <div class="form-group">
                 <label for="persona" class="form-label">Persona Asociada</label>
-                <select [(ngModel)]="telefono.persona_id" id="persona" name="persona" class="form-select" required>
+                <select [(ngModel)]="personaEncontrada" id="persona" name="persona" class="form-select" required>
                     <option [ngValue]="null">-- Seleccione una persona --</option>
                     @for (persona of listaPersonas; track persona.id) {
                     <option [ngValue]="persona.id">{{persona.nombre}} {{persona.apellido}}</option>

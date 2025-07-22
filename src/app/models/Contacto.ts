@@ -1,5 +1,8 @@
-export class Contacto {
-    constructor( public id:number, public nombreContacto: string, public telefono_id: number){
-        
-    }
+import { Telefono } from "./Telefono";
+
+
+export interface Contacto {
+    id?: number;
+    nombreContacto: string;
+    telefono?: Telefono;
 }

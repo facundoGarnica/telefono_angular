@@ -5,6 +5,7 @@ import { Persona } from '../models/Persona';
 import { Telefono } from '../models/Telefono';
 import { PersonaServiceService } from '../service/persona/personaService.service';
 import { TelefonoServiceService } from '../service/telefono/telefonoService.service';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-template-telefono',
@@ -14,10 +15,11 @@ import { TelefonoServiceService } from '../service/telefono/telefonoService.serv
 })
 export class TemplateTelefonoComponent {
   listaPersonas: Persona[] = [];
-  personaId: number | null = null;
+  personaEncontrada: number;
 
   constructor(private personaService: PersonaServiceService, private telefonoService: TelefonoServiceService) {
     this.listaPersonas = [];
+    this.personaEncontrada = 0;
   }
 
   //crear el formulario a llenar
@@ -35,24 +37,43 @@ export class TemplateTelefonoComponent {
       this.listaPersonas = r;
     });
   }
-  buscarPersonaPorId(id: number): void {
-    this.personaService.buscarPorId(id).subscribe(r => {
-      console.log("Persona encontrada: ", r);
-      this.telefono.persona_id = r.id;
-    });
+  buscarPersonaPorId(id: number): Observable<Persona> {
+    return this.personaService.buscarPorId(id);
   }
+
   guardarTelefono(): void {
-    this.telefonoService.saveTelefono(this.telefono).subscribe(r => {
-      console.log("Telefono guardado correctamente" + " numero: " + this.telefono.numero + " marca: " + this.telefono.marca +
-        " persona_id: " + this.telefono.persona_id + " contactos: " + this.telefono.contactos);
-      this.telefono = {
-        numero: '',
-        marca: '',
-        persona_id: 0,
-        contactos: [],
-      };
+    if (!this.personaEncontrada) {
+      alert('Debe seleccionar una persona');
+      return;
+    }
+
+    this.buscarPersonaPorId(this.personaEncontrada).subscribe({
+      next: (persona) => {
+        this.telefono.persona = persona;
+
+        this.telefonoService.saveTelefono(this.telefono).subscribe({
+          next: () => {
+            console.log("Teléfono guardado correctamente");
+
+            // Limpiar formulario
+            this.telefono = {
+              numero: '',
+              marca: '',
+              persona: persona,
+              contactos: []
+            };
+          },
+          error: (error) => {
+            console.error('Error al guardar teléfono:', error);
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error al buscar persona:', error);
+      }
     });
   }
+
 
 
 }

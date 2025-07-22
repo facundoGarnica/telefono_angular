@@ -1,0 +1,13 @@
+<h1> Tabla de personas guardadas</h1>
+
+<div>
+    @for(personas of listaPersonas; track personas.id){
+        <p>nombre: {{personas.nombre}}</p>
+        <p> apellido: {{personas.apellido}}</p>
+        <p> cantidad de telefonos: {{personas.telefonos.length}}</p>
+        @for (telefonos of personas.telefonos;track telefonos.id){
+            <p>telefono: {{telefonos.numero}}</p>
+            <p> marca: {{telefonos.marca}}</p>
+        }
+    }
+</div>

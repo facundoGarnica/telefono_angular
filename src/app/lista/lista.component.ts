@@ -23,7 +23,7 @@ export class ListaComponent {
 
   }
   ngOnInit(): void {
-
+    this.mostrarPersonas();
   }
   //funcion para mostrar la lista de personas
   mostrarPersonas(): void {
@@ -33,12 +33,7 @@ export class ListaComponent {
     });
   }
 
-  telefonoPorPersona(id: number): void {
-    this.telefonoService.findByPersonaId(id).subscribe(r => {
-      this.listaTelefonos = r;
-      console.log("lista de telefonos: ", this.listaTelefonos);
-    });
-  }
+
 }
 
 
